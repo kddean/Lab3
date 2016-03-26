@@ -1,0 +1,163 @@
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
+
+/**
+ * Servlet implementation class ToDoServlet
+ */
+@WebServlet("/ToDoServlet")
+public class ToDoServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	Database data = new Database();
+	Scanner s = new Scanner(System.in);
+	String a = "";
+	String input = "";
+	String input2 = "";
+	int id;
+	
+	String m = "";
+    /**
+     * Default constructor. 
+     */
+    public ToDoServlet() {
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		a = request.getParameter("actions");
+		input = request.getParameter("id");
+		input2 = request.getParameter("message");
+		PrintWriter out = response.getWriter();
+		
+		if (a.equals("create"))
+		{
+//			System.out.println("Please enter a message.");
+//			input = request.getParameter("message");
+			id = Integer.parseInt(request.getParameter("id").trim());
+			data.post(id, input2);
+			m = "Item Created.";
+			out.print(m);
+			
+		}
+		else if (a.equals("update"))
+		{
+			
+			id =  Integer.parseInt(request.getParameter("id").trim());
+			data.put(id, input2);
+			m = "Item Updated.";
+			out.print(m);
+		}
+		else if (a.equals("displayall"))
+		{
+			String list = "";
+			list = data.getList();
+			m = list;
+			out.print(m);
+		}
+		else if (a.equals("delete"))
+		{
+			//System.out.println("Please enter an id to delete.");
+			id = Integer.parseInt(request.getParameter("id").trim());
+			data.delete(id);
+			m = "Item Deleted.";
+			out.print(m);
+		}
+		else if (a.equals("displayid"))
+		{
+			String item ="";
+			id = Integer.parseInt(request.getParameter("id").trim());
+			item = data.get(id);
+			m = item;
+			out.print(m);
+		}
+		else 
+			System.out.println("That's not an option.");
+		
+	}
+
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//doGet(request, response);
+		a = request.getParameter("actions");
+		input = request.getParameter("id");
+		input2 = request.getParameter("message");
+		//response.setHeader("Cache-Control", "no-cache");
+        //response.setHeader("Pragma", "no-cache");
+		response.setContentType("text/plain");
+        response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		
+		if (a.equals("create"))
+		{
+//			System.out.println("Please enter a message.");
+//			input = request.getParameter("message");
+			id = Integer.parseInt(request.getParameter("id").trim());
+			data.post(id, input2);
+			m = "Item Created.";
+			out.write(m);
+			
+		}
+		else if (a.equals("update"))
+		{
+			
+			id =  Integer.parseInt(request.getParameter("id").trim());
+			data.put(id, input2);
+			m = "Item Updated.";
+			out.print(m);
+		}
+		else if (a.equals("displayall"))
+		{
+			String list = "";
+			list = data.getList();
+			m = list;
+			out.print(m);
+		}
+		else if (a.equals("delete"))
+		{
+			//System.out.println("Please enter an id to delete.");
+			id = Integer.parseInt(request.getParameter("id").trim());
+			data.delete(id);
+			m = "Item Deleted.";
+			out.print(m);
+		}
+		else if (a.equals("displayid"))
+		{
+			String item ="";
+			id = Integer.parseInt(request.getParameter("id").trim());
+			item = data.get(id);
+			m = item;
+			out.print(m);
+		}
+		else 
+			System.out.println("That's not an option.");
+		
+	}
+
+	/**
+	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+	 */
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+}
